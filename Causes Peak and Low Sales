@@ -1,0 +1,15 @@
+##What drove the sales peak in Jun 2021 and caused the sales trough in Mar, Jul & Oct 2021?
+
+WITH monthly AS (
+  SELECT
+    DATE_TRUNC(order_date, MONTH) AS month,
+    SUM(total_sales) AS sales,
+    SUM(order_qty) AS qty,
+    SAFE_DIVIDE(SUM(total_sales), SUM(order_qty)) AS asp
+  FROM `pbibm-482109.SalesPerformance.masterdata`
+  GROUP BY month
+)
+SELECT *
+FROM monthly
+WHERE month IN (DATE '2021-06-01', DATE '2021-10-01', DATE '2021-03-01', DATE '2021-07-01')
+ORDER BY month;
